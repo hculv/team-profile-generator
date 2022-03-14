@@ -1,2 +1,6 @@
-# team-profile-generator
-A node application that creates an HTML file with information on various employees. 
+# 10 Team Profile Generator
+
+## Description
+
+An application using the command line to create a team member sheet.
+
