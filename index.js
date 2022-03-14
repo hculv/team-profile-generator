@@ -168,9 +168,9 @@ function end() {
 }
 
 
-function initApp() {
+function init() {
   renderHtml();
   addEmployee();
 };
 
-initApp();
+init();
