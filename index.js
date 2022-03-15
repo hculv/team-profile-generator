@@ -1,7 +1,7 @@
 const inquirer = require("inquirer");
-const Engineer = require("./lib/engineer");
-const Intern = require("./lib/intern");
-const Manager = require("./lib/manager");
+const engineer = require("./lib/engineer");
+const intern = require("./lib/intern");
+const manager = require("./lib/manager");
 const fs = require("fs");
 const employees = [];
 
@@ -33,12 +33,12 @@ function addEmployee() {
     }])
     .then(function({name, title, id, email}) {
         let titleInfo = "";
-        if (title === "Engineer") {
-            titleInfo = "GitHub URL";
+        if (title === "Manager") {
+            titleInfo = "Office Number";
         } else if (title === "Intern") {
             titleInfo = "School Name";
         } else {
-            titleInfo = "Office Number";
+            titleInfo = "GitHub URL";
         }
         inquirer.prompt([{
             message: `Enter temployee's ${titleInfo}`,
@@ -47,7 +47,7 @@ function addEmployee() {
         {
             type: "list",
             name: "moreEmployees",
-            message: "Would you like to add more employees?",
+            message: "Would you like to add another employee?",
             choices: [
                 "yes",
                 "no"
@@ -56,11 +56,11 @@ function addEmployee() {
         .then(function({titleInfo, moreEmployees}) {
             let newEmployee;
             if (title === "Engineer") {
-                newEmployee = new Engineer(name, id, email, titleInfo);
+                newEmployee = new engineer(id, name, email, titleInfo);
             } else if (title === "Intern") {
-              newEmployee = new Intern(name, id, email, titleInfo);
+              newEmployee = new intern(id, name, email, titleInfo);
             } else {
-              newEmployee = new Manager(name, id, email, titleInfo);
+              newEmployee = new manager(id, name, email, titleInfo);
             }
             employees.push(newEmployee);
             addHtml(newEmployee)
@@ -108,15 +108,15 @@ function addHtml(employee) {
         const id = employee.getId();
         const email = employee.getEmail();
         let data = "";
-        if (title === "Engineer") {
-            const gitHub = employee.getGithub();
+        if (title === "Manager") {
+            const officePhone = employee.getOffice();
             data = `<div class="col-6">
             <div class="card mx-auto mb-3" style="width: 18rem">
-            <h5 class="card-header">${name}<br /><br />Engineer</h5>
+            <h5 class="card-header">${name}<br /><br />Manager</h5>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">ID: ${id}</li>
                 <li class="list-group-item"> <a href="mailto:${email}"> Send Email </a></li>
-                <li class="list-group-item"> <a href="${gitHub}"> Visit ${name}'s GitHub! </a></li>
+                <li class="list-group-item"> Office Phone: ${officePhone}</li>
             </ul>
             </div>
         </div>`;
@@ -133,14 +133,14 @@ function addHtml(employee) {
             </div>
         </div>`;
         } else {
-            const officePhone = employee.getOffice();
+            const gitHub = employee.getGithub();
             data = `<div class="col-6">
             <div class="card mx-auto mb-3" style="width: 18rem">
             <h5 class="card-header">${name}<br /><br />Manager</h5>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">ID: ${id}</li>
                 <li class="list-group-item"> <a href="mailto: ${email}"> Send Email </a></li>
-                <li class="list-group-item">Office Phone: ${officePhone}</li>
+                <li class="list-group-item"> <a href="${gitHub}"> Visit ${name}'s GitHub!</a></li>
             </ul>
             </div>
         </div>`
@@ -167,10 +167,8 @@ function end() {
     });
 }
 
-
 function init() {
   renderHtml();
   addEmployee();
 };
-
 init();
