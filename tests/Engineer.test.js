@@ -7,7 +7,7 @@ test('gets engineer github url', () => {
     const engineer = new Engineer(100, 'Hannah', 'test@test.com', 'github.com/hculv');
     expect(engineer.getGithub()).toEqual(expect.stringContaining(engineer.github.toString()));
 });
-test('gets title of employee', () => {
+test('gets employee title', () => {
     const engineer = new Engineer(100, 'Hannah', 'test@test.com', 'github.com/hculv');
     expect(engineer.getTitle()).toEqual("Engineer");
 });
